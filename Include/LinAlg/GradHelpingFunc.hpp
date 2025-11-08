@@ -35,14 +35,22 @@ void LinearBackward(vecX<double> &prevGrad, vecX<double> &weight, vecX<double> &
     prevGrad.TR(); // assume that input prevgrad is row vector
     saved.TR();
 
+    // prevGrad.size().print();
+    // weight.size().print();
+    // bias.size().print();
+    // saved.size().print();
+    // weigthUpdate.size().print();
+    // biasUpdate.size().print();
+
+
     // for each input in batch we find the grad and then use it's mean to update the weights
-    for (int i = 0; i < prevGrad.col; i++)
+    for (int i = 0; i < prevGrad.col; i++) // Batch Size 8
     {
-        for (int j = 0; j < prevGrad.row; j++)
+        for (int j = 0; j < prevGrad.row; j++) // Output Dim 10
         {
-            for (int k = 0; k < saved.col; k++)
+            for (int k = 0; k < saved.col; k++) // Input Dim 4
             {
-                weigthUpdate.push(j, k, saved.Get(j, k) + (prevGrad.Get(j, i) * saved.Get(i, k)));
+                weigthUpdate.push(j, k, weigthUpdate.Get(j, k) + (prevGrad.Get(j, i) * saved.Get(i, k)));
             }
         }
     }
@@ -52,7 +60,7 @@ void LinearBackward(vecX<double> &prevGrad, vecX<double> &weight, vecX<double> &
     {
         for (int j = 0; j < prevGrad.row; j++)
         {
-            biasUpdate.push(j, 1, biasUpdate.Get(j, 1) + prevGrad.Get(j, i));
+            biasUpdate.push(j, 0, biasUpdate.Get(j, 1) + prevGrad.Get(j, i));
         }
     }
 

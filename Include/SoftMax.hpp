@@ -52,7 +52,9 @@ public:
     void backward(vecX<double> &prevGrad)
     {
         // we assume that prevGrad is row vector (batch size X input dim)
+        // std::cout << "softmax grad start" << std::endl;
         SoftMaxGrad(prevGrad, prob); // update preGrad
+        // std::cout << "softmax grad end" << std::endl;
     }
 
 private:
