@@ -8,11 +8,11 @@
 #include <unordered_map>
 #include <utility>
 
-int iter = 0;
+int iter = -1;
 
-std::vector<int> SplitWord(std::string line, std::unordered_map<std::string, int> &hash)
+std::vector<double> SplitWord(std::string line, std::unordered_map<std::string, int> &hash)
 {
-    std::vector<int> vec;
+    std::vector<double> vec;
     std::string crnt = "";
     for (int i = 0; i < line.size(); i++)
     {
@@ -20,7 +20,7 @@ std::vector<int> SplitWord(std::string line, std::unordered_map<std::string, int
         {
             try
             {
-                vec.push_back(std::stoi(crnt));
+                vec.push_back(std::stod(crnt));
             }
             catch (const std::exception &e)
             {
@@ -42,7 +42,7 @@ std::vector<int> SplitWord(std::string line, std::unordered_map<std::string, int
     return vec;
 }
 
-std::vector<std::vector<int>> ReadFile(std::string fileName)
+std::vector<std::vector<double>> ReadFile(std::string fileName)
 {
     std::ifstream file(fileName);
     if (!file.is_open())
@@ -53,7 +53,7 @@ std::vector<std::vector<int>> ReadFile(std::string fileName)
 
     std::string line;
     std::unordered_map<std::string, int> hash;
-    std::vector<std::vector<int>> fileData;
+    std::vector<std::vector<double>> fileData;
     while (std::getline(file, line))
     {
         fileData.push_back(SplitWord(line, hash));
@@ -61,7 +61,7 @@ std::vector<std::vector<int>> ReadFile(std::string fileName)
     return fileData;
 }
 
-std::vector<std::pair<vecX<double>, vecX<int>>> CreateBatch(std::vector<std::vector<int>> &data, int batchSize)
+std::vector<std::pair<vecX<double>, vecX<int>>> CreateBatch(std::vector<std::vector<double>> &data, int batchSize)
 {
     std::vector<std::pair<vecX<double>, vecX<int>>> batchData;
     int inputIndex = 1; // first entry is not true entry

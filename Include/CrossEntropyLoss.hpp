@@ -18,7 +18,7 @@ public:
         */
         vecX<double> loss(pred.col, 1, 0);
         savedPred = pred;
-        index = actual;
+        index = actual;        
         for(int i = 0; i < pred.col; i++)
         {
             loss.push(i, -std::log(pred.Get(actual.Get(i), i)));
@@ -40,9 +40,9 @@ public:
             => return: matrix (m X n)
         */
         vecX<double> grad(savedPred.col, savedPred.row, 0);
-        for(int i = 0; i < savedPred.row; i++)
+        for(int i = 0; i < savedPred.col; i++)
         {
-            grad.push(i, index.Get(i), 1 / savedPred.Get(index.Get(i)));
+            grad.push(i, index.Get(i), -1 / savedPred.Get(index.Get(i), i));
         }
         return grad;
     }

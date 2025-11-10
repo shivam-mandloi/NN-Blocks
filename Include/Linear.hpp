@@ -31,10 +31,7 @@ public:
     void backward(vecX<double> &prevGrad)
     {
         // std::cout << "linear grad start" << std::endl;
-        // prevGrad.size().print();
-        // std::cout << "check" << std::endl;
         LinearBackward(prevGrad, weight, bias, saved, weigthUpdate, biasUpdate);
-        // std::cout << "linear grad end" << std::endl;
     }
 
     void update()

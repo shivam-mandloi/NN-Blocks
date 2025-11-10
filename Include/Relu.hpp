@@ -24,13 +24,11 @@ public:
     void backward(vecX<double> &prevGrad)
     {
         // make every element to zero, correspond to the input
-        // std::cout << "relu grad start" << std::endl;
         for(int i = 0; i < prevGrad.len; i++)
         {
             if(saved.Get(i) < 0)
                 prevGrad.push(i, 0);
         }
-        // std::cout << "relu grad end" << std::endl;
     }
 private:
     vecX<double> saved;

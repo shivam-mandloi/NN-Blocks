@@ -11,26 +11,33 @@ struct NeuralNetwork
 {
     NeuralNetwork(int inFeature, int hiddenFeature, int outFeature) : ly1(inFeature, hiddenFeature), ly2(hiddenFeature, outFeature)
     {
-        ly1.opt.SetAdam(0.99, 0.9, 0.01);
-        ly2.opt.SetAdam(0.99, 0.9, 0.01);
+        // Set the Optimizer
+        ly1.opt.SetAdam(0.99, 0.99, 1e-3);
+        ly2.opt.SetAdam(0.99, 0.99, 1e-3);
+        // ly1.opt.SetRMSprop(0.99, 0.001);
+        // ly2.opt.SetRMSprop(0.99, 0.001);
+        // ly1.opt.SetSGD(0.01);
+        // ly2.opt.SetSGD(0.01);
     }
 
+    // Training Code
     void Train(vector<pair<vecX<double>, vecX<int>>> &batchData, int epoch)
     {
         for(int epc = 0; epc < epoch; epc++)
         {
             for(int batch = 0; batch < batchData.size(); batch++)
             {
-                vecX<double> input = batchData[epc].first;
-                vecX<int> target = batchData[epc].second;
+                vecX<double> input = batchData[batch].first;
+                vecX<int> target = batchData[batch].second;
                 input.TR();
     
-                vecX<double> loss = Predict(input, target);
+                vecX<double> loss = Predict(input, target); // Return Loss
 
                 cout << "Loss: ";
                 loss.print();
                 cout << " Batch: " << batch + 1 << " Epoch: " << epc + 1 << endl;
 
+                // Backpropagation
                 vecX<double> prevGrad = crLoss.backward();
                 
                 sf.backward(prevGrad);
@@ -62,11 +69,14 @@ private:
 int main()
 {
     // first line consist vector with size 1
-    vector<vector<int>> data = ReadFile("C:\\Users\\shiva\\Desktop\\IISC\\code\\NN Model C++\\Basic NN Blocks\\Iris\\Dataset\\Iris.csv");
-    vector<pair<vecX<double>, vecX<int>>> batchedData = CreateBatch(data, 8);
+    vector<vector<double>> data = ReadFile("C:\\Users\\shiva\\Desktop\\IISC\\code\\NN Model C++\\Basic NN Blocks\\Iris\\Dataset\\Iris.csv");
+    // Split data into batches
+    vector<pair<vecX<double>, vecX<int>>> batchedData = CreateBatch(data, 16);
 
+    
     NeuralNetwork nn(4, 10, 3);
-    nn.Train(batchedData, 10);
+    // Start Training
+    nn.Train(batchedData, 1000);
 
     // // print all data
     // for(int i = 0; i < data.size(); i++)
@@ -78,7 +88,7 @@ int main()
     //     cout << endl;
     // }
 
-    // Print Batched Data
+    // // Print Batched Data
     // for(int i = 0; i < batchedData.size(); i++)
     // {
     //     cout << "Input Feature" << endl;

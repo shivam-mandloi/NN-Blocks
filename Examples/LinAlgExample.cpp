@@ -31,7 +31,7 @@ int main()
     // HadamardProduct(mat1, mat3).print();
 
 
-    vecX<double> vec = {1};
+    vecX<double> vec = {1, 1, 2, 1};
     vec.TR();
 
     mat1.print();
