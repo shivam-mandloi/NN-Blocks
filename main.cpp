@@ -76,7 +76,7 @@ int main()
     
     NeuralNetwork nn(4, 10, 3);
     // Start Training
-    nn.Train(batchedData, 1000);
+    nn.Train(batchedData, 2000);
 
     // // print all data
     // for(int i = 0; i < data.size(); i++)
